@@ -33,11 +33,12 @@ public class ClientService {
 
     public boolean isClientEmailExist(String email){
         ArrayList<ClientModel> client = this.clientRepository.findByEmail(email);
-        if(client.isEmpty()){
+        if(client.size() == 0){
             return false;
         }
         return true;
     }
+
 
     public boolean isClientRutExist(String rut){
         ArrayList<ClientModel> client = this.clientRepository.findByRut(rut);
@@ -51,7 +52,8 @@ public class ClientService {
 
     public Optional<ClientModel> getById(Long id) throws Exception {
         Optional<ClientModel> client = clientRepository.findById(id);
-        if(client.isEmpty()){
+
+        if(!client.isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Client not found");
         }
         return clientRepository.findById(id);
@@ -71,7 +73,7 @@ public class ClientService {
 
     public boolean deleteById(Long id) {
         Optional<ClientModel> client = clientRepository.findById(id);
-        if(client.isEmpty()){
+        if(!client.isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Client not found");
         }
 
